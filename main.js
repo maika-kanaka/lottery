@@ -2,8 +2,10 @@ const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron')
 
 let win
 let win_mr_add
+let win_mr_data;
 
-app.on('ready', () => {
+app.on('ready', () => 
+{
     win = new BrowserWindow({
         show: false,
         width: 500,
@@ -66,5 +68,42 @@ ipcMain.on('module-registration', (event, args) =>
         }).catch(err => {
             console.error('error: ' + err)
         })
+    }
+})
+
+ipcMain.on('module-member', (event, args) => 
+{
+    if(args == "window-close")
+    {
+        win_mr_data.close()
+        win_mr_data = null
+    }
+
+    if(args == "window-open")
+    {
+        if(win_mr_data !== null && win_mr_data !== undefined){
+            win_mr_data.focus()
+            return
+        }
+    
+        win_mr_data = new BrowserWindow({
+            show: false,
+            minWidth: 1024,
+            width: 1024,
+            minHeight: 850,
+            height: 850,
+            webPreferences: {
+                nodeIntegration: true
+            },
+            parent: win,
+            frame: false
+        })
+        
+        win_mr_data.webContents.openDevTools()
+
+        win_mr_data.loadFile('views/member/data.html')
+    
+        win_mr_data.on('ready-to-show', ()=>{ win_mr_data.show() })
+        win_mr_data.on('closed', () => { win_mr_data = null })   
     }
 })
