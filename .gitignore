@@ -1,6 +1,10 @@
+# General
 node_modules
 package-lock.json
 
 # Editor 
 .prettierrc
 .vscode
+
+# Upload
+public/imgs/members/*

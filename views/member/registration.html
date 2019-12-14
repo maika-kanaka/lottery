@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title> Aplikasi Undian </title>
+
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/tooltipster/dist/css/tooltipster.bundle.min.css"
+    />
+    <link rel="stylesheet" href="../../public/css/registration.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h5 class="text-center">Registrasi Anggota</h5>
+
+      <div class="alert alert-success" id="msg-success-save">
+        Berhasil simpan data
+      </div>
+
+      <form id="registration-form">
+        <div class="form-group tooltip-custom">
+          <label for="">Tanggal Bergabung*</label>
+          <input type="date" class="form-control" id="joined_at" />
+        </div>
+
+        <div class="form-group tooltip-custom">
+          <label for="">Nama Lengkap*</label>
+          <input type="text" class="form-control" id="fullname" />
+        </div>
+
+        <div class="form-group">
+          <label for="">Foto</label>
+          <button type="button" id="btn-upload">Pilih Foto</button>
+          <img id="photo-preview" src=""/>
+        </div>
+
+        <div class="form-group tooltip-custom">
+          <label for="">Catatan</label>
+          <textarea class="form-control" id="notes"></textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="btn-group">
+            <button id="btn-save" type="button" class="btn btn-sm btn-primary">
+              Simpan
+            </button>
+
+            <button type="button" class="btn btn-sm btn-success">
+              Simpan & ke Anggota
+            </button>
+          </div>
+
+          <button id="btn-close" class="btn btn-sm btn-danger">
+            Keluar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script src="../../public/js/registration.js"></script>
+  </body>
+</html>
