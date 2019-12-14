@@ -1,0 +1,35 @@
+.page {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    justify-content: center;
+    min-height: 100%;
+  }
+
+  .page-single {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+
+  .module-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  a.module {
+    display: block;
+    text-align: center;
+  }
+
+  a.module .img {
+    margin-bottom: 10px;
+  }

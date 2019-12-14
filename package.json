@@ -4,11 +4,13 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "author": "Maika Kanaka",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "^4.4.1",
     "electron": "^7.1.5"
   }
 }
