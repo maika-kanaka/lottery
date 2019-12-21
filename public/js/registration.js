@@ -59,14 +59,17 @@ $("#btn-save-and-close").click(function(e)
 
 ipcRenderer.on('upload-fullpath', (event, fullpath) => 
 {
-    let ext_file = path.extname(fullpath[0]).replace('.', '');
-
-    fs.readFile(fullpath[0], function(err, data)
+    if(fullpath[0] !== undefined)
     {
-        var base64Image = new Buffer(data, 'binary').toString('base64');
-        $("#photo-preview").attr('src', 'data:image/'+ ext_file +';base64, ' + base64Image);
-        $("#photo-preview").attr('data-path-url', fullpath[0]);
-    })
+        let ext_file = path.extname(fullpath[0]).replace('.', '');
+
+        fs.readFile(fullpath[0], function(err, data)
+        {
+            var base64Image = new Buffer(data, 'binary').toString('base64');
+            $("#photo-preview").attr('src', 'data:image/'+ ext_file +';base64, ' + base64Image);
+            $("#photo-preview").attr('data-path-url', fullpath[0]);
+        });
+    }
 });
 
 /*
