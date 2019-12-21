@@ -23,7 +23,8 @@ let photoObj = $('#photo-preview');
 
 $('.tooltip-custom').tooltipster({
     animation: 'fade',
-    trigger: 'custom'
+    trigger: 'custom',
+    position: 'bottom'
 });
 
 photoObj.attr('src', NO_IMAGE_URL);

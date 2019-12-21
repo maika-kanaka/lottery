@@ -44,7 +44,7 @@ ipcMain.on('module-registration', (event, args) =>
             minWidth: 300,
             width: 340,
             minHeight: 500,
-            height: 400,
+            height: 700,
             webPreferences: {
                 nodeIntegration: true
             },
