@@ -1,14 +1,14 @@
 // libraries electron and nodejs
-const { ipcRenderer } = require("electron")
-const Sequelize = require("sequelize")
-const models = require("../../models/")
-const fs = require("fs")
-const path = require('path')
+const { ipcRenderer } = require("electron");
+const Sequelize = require("sequelize");
+const models = require("../../models/");
+const fs = require("fs");
+const path = require('path');
 
 // libraries 3rd party
-const $ = require("jquery")
+const $ = require("jquery");
 const AllHtmlEntities = require('html-entities').AllHtmlEntities;
-require("tooltipster")
+require("tooltipster");
 
 // obj input 
 const NO_IMAGE_URL = '../../public/imgs/no-image.jpeg';
@@ -35,8 +35,8 @@ photoObj.attr('src', NO_IMAGE_URL);
 
 $("#btn-close").click(function(e)
 {
-    ipcRenderer.send("module-registration", "window-close")
-    e.preventDefault()
+    ipcRenderer.send("module-registration", "window-close");
+    e.preventDefault();
 }) 
 
 $("#btn-upload").click(function()
@@ -45,6 +45,35 @@ $("#btn-upload").click(function()
 });
 
 $("#btn-save").click(function()
+{
+    saveDataMember();
+});
+
+$("#btn-save-and-close").click(function(e)
+{
+    saveDataMember();
+    ipcRenderer.send('module-member', 'window-open');
+    ipcRenderer.send('module-registration', 'window-close');
+    e.preventDefault();
+});
+
+ipcRenderer.on('upload-fullpath', (event, fullpath) => 
+{
+    let ext_file = path.extname(fullpath[0]).replace('.', '');
+
+    fs.readFile(fullpath[0], function(err, data)
+    {
+        var base64Image = new Buffer(data, 'binary').toString('base64');
+        $("#photo-preview").attr('src', 'data:image/'+ ext_file +';base64, ' + base64Image);
+        $("#photo-preview").attr('data-path-url', fullpath[0]);
+    })
+});
+
+/*
+*  DEF FUNCTIONS
+*/
+
+function saveDataMember()
 {
     // get input 
     let fullname = AllHtmlEntities.encode(fullnameObj.val().trim());
@@ -88,11 +117,21 @@ $("#btn-save").click(function()
     }).then(function(mem){
         
         // upload 
-        let filename = mem.dataValues.id + path.extname(photoObj.attr('data-path-url'));
+        let data_path_url = photoObj.attr('data-path-url');
+
+        // did not upload photo 
+        if(data_path_url === undefined)
+        {
+            // message success
+            actionIfSuccessSave();
+            return;
+        }
+
+        let filename = mem.dataValues.id + path.extname(data_path_url);
 
         fs.copyFile(photoObj.attr('data-path-url'), __dirname + '\\..\\..\\public\\imgs\\members\\' + filename, function(err){
-            console.log('error gan: '+ err)
-        })
+            console.log('error: '+ err)
+        });
 
         // update database dengan photo nama 
         models.member.update({
@@ -101,36 +140,30 @@ $("#btn-save").click(function()
             where: {id: mem.dataValues.id}
         }).then(function()
         {
-            // clear the form 
-            fullnameObj.val('');
-            notesObj.val('');
-            joinedAtObj.val('');
-            photoObj.attr('src', NO_IMAGE_URL);
-            photoObj.attr('data-path-url', '');
-
             // message success
-            $("#msg-success-save").css({'display': 'block'});
-
-            setTimeout(function()
-            {
-                $("#msg-success-save").css({'display': 'none'});
-            }, 2000);
-        })
+            actionIfSuccessSave();
+        });
 
     })
 
     // focus
     joinedAtObj.focus();
-})
+}
 
-ipcRenderer.on('upload-fullpath', (event, fullpath) => 
+function actionIfSuccessSave()
 {
-    let ext_file = path.extname(fullpath[0]).replace('.', '');
+    // clear the form 
+    fullnameObj.val('');
+    notesObj.val('');
+    joinedAtObj.val('');
+    photoObj.attr('src', NO_IMAGE_URL);
+    photoObj.attr('data-path-url', '');
 
-    fs.readFile(fullpath[0], function(err, data)
+    // message success
+    $("#msg-success-save").css({'display': 'block'});
+
+    setTimeout(function()
     {
-        var base64Image = new Buffer(data, 'binary').toString('base64');
-        $("#photo-preview").attr('src', 'data:image/'+ ext_file +';base64, ' + base64Image);
-        $("#photo-preview").attr('data-path-url', fullpath[0]);
-    })
-})
+        $("#msg-success-save").css({'display': 'none'});
+    }, 2000);
+}
