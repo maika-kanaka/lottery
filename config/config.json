@@ -1,11 +1,7 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "lottery",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "sqlite",
+    "storage": "db/lottery.sqlite"
   },
   "test": {
     "username": "root",
