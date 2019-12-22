@@ -1,50 +1,69 @@
 // libraries electron and nodejs
+const ipcRenderer = require("electron").ipcRenderer;
 const models = require("../../models/");
+const fs = require("fs");
 
 // libraries 3rd party
 const $ = require("jquery");
 const moment = require("moment");
+require("datatables.net")();
+require("datatables.net-bs4")();
 
-// obj obj 
-let tableDataObj = $("#table-data");
+// obj obj
+var tableDataObj = $("#table-data");
+var dataTableObj;
 
 /*
-* INIT - INIT
-*/
-models.member.findAll().then(function(res)
-{
-    let html_data = '';
+ * INIT - INIT
+ */
 
-    var idx = 1;
-    res.forEach(function(val, key)
-    {
-        html_data += '<tr>';
-        html_data += '<td> '+ idx +' </td>';
-        html_data += '<td> '+ val.dataValues.photo +' </td>';
-        html_data += '<td> '+ val.dataValues.fullname +' </td>';
+moment.locale("id");
 
-        let notes = (val.dataValues.notes !== null) ? val.dataValues.notes : '';
-        html_data += '<td> '+ notes +' </td>';
+getMemberData("init");
 
-        let joined_at;
-        if(val.dataValues.joined_at !== null){
-            joined_at = moment(val.dataValues.joined_at).format('DD MMMM YYYY');
-        }else{
-            joined_at = '';
-        }
-        html_data += '<td> '+ joined_at +' </td>';
-
-        let won_at;
-        if(val.dataValues.won_at !== null){
-            won_at = moment(val.dataValues.won_at).format('DD MMMM YYYY');
-        }else{
-            won_at = '';
-        }
-        html_data += '<td> '+ won_at +' </td>';
-        html_data += '</tr>';
-
-        idx++;
-    });
-
-    tableDataObj.find("tbody").html(html_data);
+$("#btn-refresh").click(function(e) {
+    getMemberData("refresh");
+    e.preventDefault();
 });
+
+$("#btn-registration").click(function(e) {
+    ipcRenderer.send("module-registration", "window-open");
+    e.preventDefault();
+});
+
+/*
+ * DEF FUNCTIONS
+ */
+
+function getMemberData(evt) {
+    models.member.findAll().then(function(res) {
+        let members_data = [];
+        var idx = 1;
+        res.forEach(function(val, key) {
+            members_data.push([
+                idx,
+                val.dataValues.photo !== null ? val.dataValues.photo : "",
+                val.dataValues.fullname,
+                val.dataValues.notes !== null ? val.dataValues.notes : "",
+                val.dataValues.joined_at !== null
+                    ? moment(val.dataValues.joined_at).format("DD MMMM YYYY")
+                    : "",
+                val.dataValues.won_at !== null
+                    ? moment(val.dataValues.won_at).format("DD MMMM YYYY")
+                    : ""
+            ]);
+
+            idx++;
+        });
+
+        if (evt == "refresh") {
+            dataTableObj.clear();
+            dataTableObj.rows.add(members_data);
+            dataTableObj.draw();
+        } else {
+            dataTableObj = tableDataObj.DataTable({
+                data: members_data
+            });
+        }
+    });
+}

@@ -1,0 +1,9 @@
+.container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+} 
+
+.btn-action-group {
+    text-align: center;
+    padding: 5px 0px;
+}

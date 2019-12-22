@@ -1,41 +1,67 @@
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title> Aplikasi Undian </title>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Aplikasi Undian</title>
 
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/datatables/media/css/jquery.dataTables.min.css"
-    />
-    <link rel="stylesheet" href="../../public/css/member-data.css" />
-  </head>
+        <!-- plugins -->
+        <link
+            rel="stylesheet"
+            href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="../../node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="../../node_modules/font-awesome/css/font-awesome.min.css"
+        />
 
-  <body>
-    <div class="container">
-      <h5 class="text-center"> Data Anggota </h5>
+        <!-- application css -->
+        <link rel="stylesheet" href="../../public/css/member-data.css" />
+    </head>
 
-      <table class="table" id="table-data">
-        <thead>
-           <tr>
-               <th>No</th>
-               <th>Foto</th>
-               <th>Nama Lengkap</th>
-               <th>Catatan</th>
-               <th>Tgl. Bergabung</th>
-               <th>Tgl. Dapat Undian</th>
-           </tr> 
-        </thead>
+    <body>
+        <div class="container">
+            <h5 class="text-center">Data Anggota</h5>
 
-        <tbody>
+            <div class="btn-action-group">
+                <button
+                    type="button"
+                    id="btn-refresh"
+                    class="btn btn-light btn-sm"
+                >
+                    <i class="fa fa-refresh"></i>
+                    Refresh
+                </button>
 
-        </tbody>
-      </table>
-    </div>
+                <button
+                    type="button"
+                    id="btn-registration"
+                    class="btn btn-primary btn-sm"
+                >
+                    <i class="fa fa-plus"></i>
+                    Registrasi
+                </button>
+            </div>
 
-    <script src="../../public/js/member-data.js"></script>
-  </body>
+            <table class="table" id="table-data">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Foto</th>
+                        <th>Nama Lengkap</th>
+                        <th>Catatan</th>
+                        <th>Tgl. Bergabung</th>
+                        <th>Tgl. Dapat Undian</th>
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- application js -->
+        <script src="../../public/js/member-data.js"></script>
+    </body>
 </html>

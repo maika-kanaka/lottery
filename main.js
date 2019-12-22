@@ -41,7 +41,7 @@ ipcMain.on('module-registration', (event, args) =>
     
         win_mr_add = new BrowserWindow({
             show: false,
-            minWidth: 300,
+            minWidth: 340,
             width: 340,
             minHeight: 500,
             height: 700,
@@ -51,7 +51,7 @@ ipcMain.on('module-registration', (event, args) =>
             parent: win,
             frame: false
         })
-            
+
         win_mr_add.loadFile('views/member/registration.html')
     
         win_mr_add.on('ready-to-show', ()=>{ win_mr_add.show() })
@@ -90,16 +90,13 @@ ipcMain.on('module-member', (event, args) =>
             show: false,
             minWidth: 1024,
             width: 1024,
-            minHeight: 850,
-            height: 850,
+            minHeight: 620,
+            height: 620,
             webPreferences: {
                 nodeIntegration: true
             },
-            parent: win,
-            frame: false
+            parent: win
         })
-        
-        win_mr_data.webContents.openDevTools()
 
         win_mr_data.loadFile('views/member/data.html')
     
