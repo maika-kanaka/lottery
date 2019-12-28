@@ -8,6 +8,7 @@ package-lock.json
 
 # Upload
 public/imgs/members/*
+!public/imgs/members/index.html
 
 # db 
 db/*

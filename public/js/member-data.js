@@ -12,6 +12,7 @@ require("bootstrap");
 
 // obj obj
 var tableDataObj = $("#table-data");
+var modalLoadingObj = $("#modal-loading");
 var dataTableObj;
 
 /*
@@ -38,7 +39,12 @@ $("#btn-registration").click(function(e) {
  * DEF FUNCTIONS
  */
 
-function getMemberData(evt) {
+function getMemberData(evt) 
+{
+    // show loading
+    modalLoadingObj.modal('show');
+
+    // get data from database
     models.member.findAll().then(function(res) {
         let members_data = [];
         var idx = 1;
@@ -84,6 +90,7 @@ function getMemberData(evt) {
             idx++;
         });
 
+        // fill data to datatable
         if (evt == "refresh") {
             dataTableObj.clear();
             dataTableObj.rows.add(members_data);
@@ -93,6 +100,11 @@ function getMemberData(evt) {
                 data: members_data
             });
         }
+
+        // hide loading
+        setTimeout(function(){
+            modalLoadingObj.modal('hide');
+        }, 300);
     });
 }
 
