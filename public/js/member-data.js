@@ -42,7 +42,7 @@ function getMemberData(evt) {
         res.forEach(function(val, key) {
             members_data.push([
                 idx,
-                val.dataValues.photo !== null ? val.dataValues.photo : "",
+                val.dataValues.photo !== null ? "<img src='../../public/imgs/members/" + val.dataValues.photo + "'>" : "",
                 val.dataValues.fullname,
                 val.dataValues.notes !== null ? val.dataValues.notes : "",
                 val.dataValues.joined_at !== null

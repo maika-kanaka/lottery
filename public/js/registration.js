@@ -46,14 +46,13 @@ $("#btn-upload").click(function()
 
 $("#btn-save").click(function()
 {
-    saveDataMember();
+    saveDataMember('save');
 });
 
 $("#btn-save-and-close").click(function(e)
 {
-    saveDataMember();
-    ipcRenderer.send('module-member', 'window-open');
-    ipcRenderer.send('module-registration', 'window-close');
+    saveDataMember('save-and-close');
+
     e.preventDefault();
 });
 
@@ -76,8 +75,8 @@ ipcRenderer.on('upload-fullpath', (event, fullpath) =>
 *  DEF FUNCTIONS
 */
 
-function saveDataMember()
-{
+function saveDataMember(evt)
+{   
     // get input 
     let fullname = AllHtmlEntities.encode(fullnameObj.val().trim());
     let notes = AllHtmlEntities.encode(notesObj.val().trim());
@@ -126,7 +125,7 @@ function saveDataMember()
         if(data_path_url === undefined)
         {
             // message success
-            actionIfSuccessSave();
+            actionIfSuccessSave(evt);
             return;
         }
 
@@ -144,16 +143,15 @@ function saveDataMember()
         }).then(function()
         {
             // message success
-            actionIfSuccessSave();
+            actionIfSuccessSave(evt);
         });
-
-    })
+    });
 
     // focus
     joinedAtObj.focus();
 }
 
-function actionIfSuccessSave()
+function actionIfSuccessSave(evt)
 {
     // clear the form 
     fullnameObj.val('');
@@ -169,4 +167,9 @@ function actionIfSuccessSave()
     {
         $("#msg-success-save").css({'display': 'none'});
     }, 2000);
+
+    if(evt == 'save-and-close'){
+        ipcRenderer.send('module-member', 'window-open');
+        ipcRenderer.send('module-registration', 'window-close');
+    }
 }
