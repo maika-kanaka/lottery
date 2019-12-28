@@ -12,3 +12,8 @@
     width: 40px;
     height: 40px;
 }
+
+#msg-success-delete {
+    display: none;
+    margin-top: 15px;
+}

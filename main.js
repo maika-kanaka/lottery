@@ -73,13 +73,13 @@ ipcMain.on('module-registration', (event, args) =>
 
 ipcMain.on('module-member', (event, args) => 
 {
-    if(args == "window-close")
+    if(typeof args == 'string' && args == "window-close")
     {
         win_mr_data.close()
         win_mr_data = null
     }
 
-    if(args == "window-open")
+    if(typeof args == 'string' && args == "window-open")
     {
         if(win_mr_data !== null && win_mr_data !== undefined){
             win_mr_data.focus()
@@ -97,10 +97,28 @@ ipcMain.on('module-member', (event, args) =>
             },
             parent: win
         })
-
+        
         win_mr_data.loadFile('views/member/data.html')
     
         win_mr_data.on('ready-to-show', ()=>{ win_mr_data.show() })
         win_mr_data.on('closed', () => { win_mr_data = null })   
+    }
+
+    if(typeof args == 'object' && args.action == 'open-confirm-delete-dialog')
+    {
+        let confirm_delete = dialog.showMessageBoxSync(win_mr_data, {
+            type: "question",
+            title: "Konfirmasi Hapus",
+            message: "Apa anda yakin ingin menghapus data anggota ini ?",
+            buttons: [
+                "Iya",
+                "Engga jadi"
+            ]
+        })
+
+        event.reply('reply-confirm-delete-dialog', {
+            member_id: args.member_id,
+            buttonIdClick: confirm_delete
+        });
     }
 })
