@@ -49,7 +49,8 @@ ipcMain.on('module-registration', (event, args) =>
                 nodeIntegration: true
             },
             parent: win,
-            frame: false
+            frame: false,
+            icon: 'public/imgs/favicon.ico'
         })
 
         win_mr_add.loadFile('views/member/registration.html')
@@ -95,7 +96,8 @@ ipcMain.on('module-member', (event, args) =>
             webPreferences: {
                 nodeIntegration: true
             },
-            parent: win
+            parent: win,
+            icon: 'public/imgs/favicon.ico'
         })
         
         win_mr_data.loadFile('views/member/data.html')
