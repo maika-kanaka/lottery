@@ -85,7 +85,7 @@ ipcMain.on('module-member', (event, args) =>
             win_mr_data.focus()
             return
         }
-    
+        
         win_mr_data = new BrowserWindow({
             show: false,
             minWidth: 1024,
